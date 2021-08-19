@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'questions.dart';
-import 'answers.dart';
+import 'package:flutter_complte_practise/result.dart';
+import 'quiz.dart';
 
 class Myapp extends StatefulWidget {
   @override
@@ -13,20 +13,39 @@ class _MyAppState extends State<Myapp> {
   static const questionList = [
     {
       'questionText': 'Whats your favorite color',
-      'answers': ['black', 'red', 'Green', 'WHite'],
+      'answers': [
+        {'text': 'Black', 'score': 10}, 
+        {'text': 'Red', 'score': 5},
+        {'text': 'orgin', 'score': 2},
+        {'text': 'yellow', 'score': 8}
+        ]
     },
     {
       'questionText': 'Whats your favorite animal?',
-      'answers': ['tiger', 'Monkey', 'Green', 'WHite'],
+      'answers': [
+        {'text': 'Rabbit', 'score': 10},
+        {'text': 'Snake', 'score': 5},
+        {'text': 'Elephant', 'score': 2},
+        {'text': 'Lion', 'score': 8}
+      ],
     },
     {
       'questionText': 'Whats your favorite city',
-      'answers': ['longdon', 'beijing', 'Green', 'WHite'],
+      'answers': [
+        {'text': 'Delhi', 'score': 10},
+        {'text': 'Mumbai', 'score': 5},
+        {'text': 'Chennai', 'score': 2},
+        {'text': 'Banglore', 'score': 8}
+      ],
     },
   ];
+
   var questionIndex = 0;
-  void questions() {
+  var socre;
+  var totalscore =0;
+  void answerQuestion(int score) {
     setState(() {
+      totalscore += score;
       questionIndex++;
     });
     print(questionIndex);
@@ -34,6 +53,13 @@ class _MyAppState extends State<Myapp> {
     if (questionIndex <= questionList.length- 1) {
       print('we have more questiosn');
     }
+  }
+
+  void resetQuiz() {
+    setState(() {
+      questionIndex = 0;
+      totalscore = 0;
+    });
   }
 
   @override
@@ -44,15 +70,13 @@ class _MyAppState extends State<Myapp> {
         backgroundColor: Colors.purple,
         title: Text('My App'),
       ),
-      body: questionIndex < questionList.length ? Column(
-        children: [
-          Questions(questionList[questionIndex]['questionText']),
-          ...(questionList[questionIndex]['answers'] as List<String>)
-              .map((answer) {
-            return Answer(questions, answer);
-          }).toList()
-        ],
-      ) : Center(child: Text('you didit'),)
+      body: questionIndex < questionList.length ? 
+      Quiz(
+        questionList:questionList,
+        questionIndex:questionIndex,
+        answerQuestion:answerQuestion,)
+      : Result(totalscore,resetQuiz)
+
     ));
   }
 }

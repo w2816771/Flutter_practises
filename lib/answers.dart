@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'questions.dart';
-import 'main.dart';
 
 class Answer extends StatelessWidget {
   final VoidCallback selectHandler;
